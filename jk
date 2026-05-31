@@ -198,6 +198,21 @@ getgenv().ESP = {
         },
     },
 
+-- ==================== AUTO FONT SIZE BASED ON PLATFORM ====================
+local UserInputService = game:GetService("UserInputService")
+
+local IsMobile = UserInputService.TouchEnabled 
+             and not UserInputService.KeyboardEnabled
+
+-- Auto set font size
+if IsMobile then
+    ESP.Settings.Players.FontSize = 7      -- Mobile
+else
+    ESP.Settings.Players.FontSize = 10     -- PC / Console
+end
+
+print("ESP Font Size Set To:", ESP.Settings.Players.FontSize, IsMobile and "(Mobile)" or "(PC)")
+
     Connections = {},
     Errors = {},
     Objects = {},
