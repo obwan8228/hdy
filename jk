@@ -198,7 +198,10 @@ getgenv().ESP = {
         },
     },
 
-function ESP.UpdateFontSize(size)
+function getgenv().ESP.UpdateFontSize(size)
+    local ESP = getgenv().ESP
+    if not ESP or not ESP.Targets then return end
+
     for _, targets in pairs(ESP.Targets) do
         for _, data in pairs(targets) do
             if data.Objects then
