@@ -738,6 +738,18 @@ do -- Functions
                     return
                 end
 
+    local ESPFont = Fonts.Loaded[ESPSettings.Font]
+
+    if TargetInfo.LastFont ~= ESPFont then
+        TargetInfo.LastFont = ESPFont
+
+        for _, obj in pairs(Objects) do
+            if typeof(obj) == "Instance" and obj:IsA("TextLabel") then
+                obj.FontFace = ESPFont
+            end
+        end
+    end
+
 LastTick = os_clock()
 Objects["TargetHolder"].Visible = false
 Objects["Highlight"].Enabled = false
@@ -1181,13 +1193,15 @@ do -- Connections
         ESP.RemoveTarget(Player, "Players")
     end))
 
-    Utility.AddConnection(RunService.PreRender, LPH_NO_VIRTUALIZE(function()
-        for Type, _ in ESP.Settings do
-            for _, Target in ESP.Targets[Type] do
-                Target.Update()
+
+Utility.AddConnection(RunService.PreRender, LPH_NO_VIRTUALIZE(function()
+    for Type in pairs(ESP.Settings) do
+        for _, TargetInfo in pairs(ESP.Targets[Type] or {}) do
+            if TargetInfo and TargetInfo.Update then
+                TargetInfo:Update()
             end
         end
-    end))
-end
+    end
+end))
 
 return Esp, MiscOptions
