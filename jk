@@ -738,17 +738,21 @@ do -- Functions
                     return
                 end
 
-    local ESPFont = Fonts.Loaded[ESPSettings.Font]
+   local FontsTable = getgenv().Fonts
+if not FontsTable or not FontsTable.Loaded then return end
 
-    if TargetInfo.LastFont ~= ESPFont then
-        TargetInfo.LastFont = ESPFont
+local ESPFont = FontsTable.Loaded[ESPSettings.Font]
+if not ESPFont then return end
 
-        for _, obj in pairs(Objects) do
-            if typeof(obj) == "Instance" and obj:IsA("TextLabel") then
-                obj.FontFace = ESPFont
-            end
+if TargetInfo.LastFont ~= ESPFont then
+    TargetInfo.LastFont = ESPFont
+
+    for _, obj in pairs(Objects or {}) do
+        if typeof(obj) == "Instance" and obj:IsA("TextLabel") then
+            obj.FontFace = ESPFont
         end
     end
+end
 
 LastTick = os_clock()
 Objects["TargetHolder"].Visible = false
