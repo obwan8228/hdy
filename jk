@@ -198,23 +198,6 @@ getgenv().ESP = {
         },
     },
 
-function getgenv().ESP.UpdateFontSize(size)
-    local ESP = getgenv().ESP
-    if not ESP or not ESP.Targets then return end
-
-    for _, targets in pairs(ESP.Targets) do
-        for _, data in pairs(targets) do
-            if data.Objects then
-                for _, obj in pairs(data.Objects) do
-                    if typeof(obj) == "Instance" and obj:IsA("TextLabel") then
-                        obj.TextSize = size
-                    end
-                end
-            end
-        end
-    end
-end
-
     Connections = {},
     Errors = {},
     Objects = {},
